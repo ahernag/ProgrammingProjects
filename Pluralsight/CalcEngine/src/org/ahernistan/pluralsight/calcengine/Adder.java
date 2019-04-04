@@ -1,13 +1,9 @@
 package org.ahernistan.pluralsight.calcengine;
 
-public class Adder extends AEvaluator {
-
-    public Adder(char code) {
-        super(code);
-    }
+public class Adder extends ACalculation {
 
     @Override
-    public double evaluate(double leftVal, double rightVal) {
+    public double calcuate(double leftVal, double rightVal) {
         return leftVal + rightVal;
     }
 }

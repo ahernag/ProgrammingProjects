@@ -1,13 +1,9 @@
 package org.ahernistan.pluralsight.calcengine;
 
-public class Subtractor extends AEvaluator {
-
-    public Subtractor(char code) {
-        super(code);
-    }
+public class Subtractor extends ACalculation {
 
     @Override
-    public double evaluate(double leftVal, double rightVal) {
+    public double calcuate(double leftVal, double rightVal) {
         return leftVal - rightVal;
     }
 }
