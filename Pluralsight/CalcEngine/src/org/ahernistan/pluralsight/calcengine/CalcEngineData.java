@@ -2,32 +2,27 @@ package org.ahernistan.pluralsight.calcengine;
 
 import org.ahernistan.util.UniqueHashMap;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class CalcEngineData {
 
-    final Map<String, ACalculation> tokenCalculation = new UniqueHashMap<>();
-    final Map<String, Character> tokenSymbol = new UniqueHashMap<>();
-    final Map<Character, ACalculation> symbolCalculation = new UniqueHashMap<>();
+    final Map<String, AbstractCalculation> tokenCalculation = new UniqueHashMap<>();
+    final Map<String, String> tokenSymbol = new UniqueHashMap<>();
+    final Map<String, AbstractCalculation> symbolCalculation = new UniqueHashMap<>();
 
-    CalcEngineData() {
-        associate(new OpSymbolAndTokensGroups(new OperationSymbolAndTokens('+', "add", "plus")), new Adder());
-        associate(new OpSymbolAndTokensGroups(new OperationSymbolAndTokens('-', "subtract", "minus")), new Subtractor());
-        associate(new OpSymbolAndTokensGroups(new OperationSymbolAndTokens('x', "multiply", "times")), new Multiplier());
-        associate(new OpSymbolAndTokensGroups(new OperationSymbolAndTokens('÷', "divide")), new Divider());
+    CalcEngineData(SymbolAndTokensAssociation ... associations) {
+        associate(associations);
+        System.out.println("That's all folks!!!!!");
     }
 
-    private void associate(OpSymbolAndTokensGroups opSymbolAndTokensGroups, ACalculation calculation) {
-        OperationSymbolAndTokens[] symbolAndTokensItems = opSymbolAndTokensGroups.symbolAndTokensGroup;
+    private void associate(SymbolAndTokensAssociation[] associations) {
 
-        for (OperationSymbolAndTokens symbolAndTokens : symbolAndTokensItems) {
-            char symbol = symbolAndTokens.operationSymbol;
-            symbolCalculation.put(symbol, calculation);
-            String[] tokens = symbolAndTokens.operationTokens;
-            for (String token : tokens) {
-                tokenCalculation.put(token, calculation);
-                tokenSymbol.put(token, symbol);
+        for (SymbolAndTokensAssociation symbolAndTokens : associations) {
+            symbolCalculation.put(symbolAndTokens.outputSymbol.token.toString(), symbolAndTokens.calculation);
+
+            for(OperationToken operationToken : symbolAndTokens.operationTokens) {
+                tokenCalculation.put(operationToken.token.toString(), symbolAndTokens.calculation);
+                tokenSymbol.put(operationToken.token.toString(), symbolAndTokens.outputSymbol.token.toString());
             }
         }
     }
